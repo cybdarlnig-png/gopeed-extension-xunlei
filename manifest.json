@@ -43,14 +43,14 @@
     {
       "name": "cookie",
       "title": "迅雷 Cookie",
-      "description": "登录 pan.xunlei.com 后，从请求头复制 Cookie 粘贴到这里；支持带 Cookie: 前缀。如果不想手动复制，可以使用 Chrome 扩展 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
+      "description": "方式一：从 Chrome 迅雷请求头复制 Cookie；方式二（快捷版）：安装 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
       "type": "string",
       "value": ""
     },
     {
       "name": "authorization",
       "title": "迅雷 Authorization",
-      "description": "粘贴迅雷网页端请求头中的 Authorization 值。如果嫌手动复制麻烦，可以使用 Chrome 扩展 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
+      "description": "方式一：从 Chrome 迅雷请求头复制 Authorization；方式二（快捷版）：安装 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
       "type": "string",
       "value": ""
     },

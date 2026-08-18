@@ -33,18 +33,18 @@ gopeed-extension-xunlei/
 
 ## 配置
 
-### 迅雷 Cookie
+### 方式一：手动获取
 
 1. 使用 Chrome 访问 `https://pan.xunlei.com/` 并登录迅雷账号。
 2. 按 `F12` 打开开发者工具，切换到 `Network`。
 3. 找到迅雷云盘页面产生的请求，在 `Request Headers` 中复制 `Cookie` 值。
 4. 粘贴到 Gopeed 扩展设置的“迅雷 Cookie”。
 
-如果嫌手动复制麻烦，可以使用 Chrome 扩展 [CookieHub](https://github.com/cybdarlnig-png/CookieHub) 一键获取 Cookie 和 Authorization。
+5. 从同一个请求的 `Request Headers` 中复制 `Authorization`，粘贴到 Gopeed 扩展设置的“迅雷 Authorization”。支持粘贴纯值、`Bearer ...`、完整的 `Authorization: Bearer ...` 请求头，以及带引号或 JSON 格式的内容。如果 Cookie 中已经包含 `authorization` 字段，可以不重复填写。
 
-### 迅雷 Authorization
+### 方式二（快捷版）：使用 CookieHub
 
-普通分享没有直接下载地址时，还需要从同一个请求的 `Request Headers` 复制 `Authorization`，粘贴到扩展设置的“迅雷 Authorization”。支持粘贴纯值、`Bearer ...`、完整的 `Authorization: Bearer ...` 请求头，以及一键获取工具复制的带引号/JSON格式。如果 Cookie 中已经包含 `authorization` 字段，可以不重复填写。
+如果不想手动查找请求，可以安装 Chrome 扩展 [CookieHub](https://github.com/cybdarlnig-png/CookieHub)，一键获取当前浏览器中的 Cookie 和 Authorization，再分别粘贴到 Gopeed 扩展设置中的对应配置项即可。
 
 ### 自动清理
 
