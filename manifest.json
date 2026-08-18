@@ -1,0 +1,64 @@
+{
+  "name": "xunlei-pan",
+  "author": "cybdarlnig-png",
+  "title": "迅雷云盘下载",
+  "description": "解析迅雷云盘分享链接，递归读取完整内容并将文件直链交给 Gopeed 下载。",
+  "version": "0.8.0",
+  "homepage": "https://gopeed.com/zh/docs/dev-extension",
+  "repository": {
+    "url": "https://github.com/cybdarlnig-png/gopeed-extension-xunlei",
+    "directory": ""
+  },
+  "scripts": [
+    {
+      "event": "onResolve",
+      "match": {
+        "urls": [
+          "*://pan.xunlei.com/s/*"
+        ]
+      },
+      "entry": "index.js"
+    },
+    {
+      "event": "onStart",
+      "match": {
+        "labels": [
+          "xunlei.cleanup.ids"
+        ]
+      },
+      "entry": "index.js"
+    },
+    {
+      "event": "onDone",
+      "match": {
+        "labels": [
+          "xunlei.cleanup.ids"
+        ]
+      },
+      "entry": "index.js"
+    }
+  ],
+  "settings": [
+    {
+      "name": "cookie",
+      "title": "迅雷 Cookie",
+      "description": "登录 pan.xunlei.com 后，从请求头复制 Cookie 粘贴到这里；支持带 Cookie: 前缀。",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "authorization",
+      "title": "迅雷 Authorization",
+      "description": "粘贴迅雷网页端请求头中的 Authorization 值。",
+      "type": "string",
+      "value": ""
+    },
+    {
+      "name": "autoCleanup",
+      "title": "转存后立即删除临时文件",
+      "description": "拿到下载直链后立即删除本次分享转存的文件或文件夹；直接下载的分享不会执行清理。",
+      "type": "boolean",
+      "value": false
+    }
+  ]
+}
