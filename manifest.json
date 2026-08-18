@@ -4,7 +4,7 @@
   "title": "迅雷云盘下载",
   "description": "解析迅雷云盘分享链接，递归读取完整内容并将文件直链交给 Gopeed 下载。",
   "icon": "icon.png",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "homepage": "https://github.com/cybdarlnig-png/gopeed-extension-xunlei",
   "repository": {
     "url": "https://github.com/cybdarlnig-png/gopeed-extension-xunlei",
@@ -43,14 +43,14 @@
     {
       "name": "cookie",
       "title": "迅雷 Cookie",
-      "description": "登录 pan.xunlei.com 后，从请求头复制 Cookie 粘贴到这里；支持带 Cookie: 前缀。",
+      "description": "登录 pan.xunlei.com 后，从请求头复制 Cookie 粘贴到这里；支持带 Cookie: 前缀。如果不想手动复制，可以使用 Chrome 扩展 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
       "type": "string",
       "value": ""
     },
     {
       "name": "authorization",
       "title": "迅雷 Authorization",
-      "description": "粘贴迅雷网页端请求头中的 Authorization 值。",
+      "description": "粘贴迅雷网页端请求头中的 Authorization 值。如果嫌手动复制麻烦，可以使用 Chrome 扩展 CookieHub 一键获取 Cookie 和 Authorization：https://github.com/cybdarlnig-png/CookieHub",
       "type": "string",
       "value": ""
     },
