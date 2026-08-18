@@ -10,6 +10,7 @@ GitHub: `https://github.com/cybdarlnig-png/gopeed-extension-xunlei`
 gopeed-extension-xunlei/
 ├── index.js       # 扩展源码
 ├── manifest.json  # Gopeed 扩展配置
+├── icon.png       # 迅雷云盘图标
 └── README.md      # 使用说明
 ```
 
