@@ -8,7 +8,7 @@
 var API_BASE = 'https://api-pan.xunlei.com/drive/v1';
 var CAPTCHA_API = 'https://xluser-ssl.xunlei.com/v1/shield/captcha/init';
 var CLIENT_ID = 'Xqp0kJBXWhwaTpB6';
-var CLIENT_VERSION = '1.92.62';
+var CLIENT_VERSION = '1.92.89';
 var DEVICE_STORAGE_KEY = 'xunlei.deviceId';
 var COOKIE_STORAGE_KEY = 'xunlei.cookie';
 var DEFAULT_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';
@@ -355,18 +355,20 @@ function md5(s) {
 function captchaSign(timestamp, deviceId) {
   var current = CLIENT_ID + CLIENT_VERSION + 'pan.xunlei.com' + deviceId + timestamp;
   var salts = [
-    'o6b11ImBwJA1KSNMTALjL0xMkMjTP',
-    'oVHCQaox9N6+R91GY63sbxci9K9ymFl',
-    'XReS2zbwYB/+vUnYDwZ',
-    'O56ssQHYiK5enUTKaV',
-    'sGKNxaX7aUzpjJ2n+/2f1I0',
-    '1oyQWde2s4zvz',
-    'ziq13Yyc6HUXr3477c20PJfwBjg7ux',
-    'xKMXTJmlEqamEpkWfp6WeP1qZezdCA',
-    'rUA',
-    'XVIzRTbY7MGdUXn0+qLjw',
-    'aGrpbD3EUDGo0wmvaKPDGxVRaNVN6',
-    'ieQk/'
+    'q1FLg',
+    'OECaw0higFYs7qCdOWvMEe',
+    '1UQvF/CWht+RATnmBnyakvJFHL1jaAb8MRYvdVHQLZ',
+    'OV+xWBsbnAehPNmDEUnjcVT',
+    'bbuvyCYHdJwBOtJ8Cdeg',
+    '9ROgxnyRfQInpATpkchBTZW',
+    'vXA2EpRk8',
+    'oEd',
+    'QCBQwX/',
+    'P5NlYzyVtGjJUI/dIzi+SOL+mf0Wl17',
+    '7GRbxu7OmpasI841c66J',
+    'PEVQN9w+A4wRbGoX',
+    'CJ3yz0fu1kqhPDOyL438W',
+    'tD75Q'
   ];
   for (var i = 0; i < salts.length; i += 1) {
     current = md5(current + salts[i]);
@@ -378,9 +380,7 @@ async function createCaptchaToken(deviceId, userAgent, auth) {
   var timestamp = String(Date.now());
   var payload = {
     client_id: CLIENT_ID,
-    // Match the action used by the official web client. The returned token is
-    // reused for share, file-info, restore, and task requests.
-    action: 'get:/drive/v1/about',
+    action: 'get:/drive/v1/share',
     device_id: deviceId,
     meta: {
       username: '',
@@ -390,7 +390,7 @@ async function createCaptchaToken(deviceId, userAgent, auth) {
       client_version: CLIENT_VERSION,
       captcha_sign: captchaSign(timestamp, deviceId),
       timestamp: timestamp,
-      user_id: ''
+      user_id: '0'
     }
   };
   var data = await requestJson(CAPTCHA_API, {

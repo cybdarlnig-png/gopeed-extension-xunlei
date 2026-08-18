@@ -4,7 +4,7 @@
   "title": "迅雷云盘下载",
   "description": "解析迅雷云盘分享链接，递归读取完整内容并将文件直链交给 Gopeed 下载。",
   "icon": "icon.png",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "homepage": "https://github.com/cybdarlnig-png/gopeed-extension-xunlei",
   "repository": {
     "url": "https://github.com/cybdarlnig-png/gopeed-extension-xunlei",
