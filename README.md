@@ -4,25 +4,65 @@
 
 GitHub: `https://github.com/cybdarlnig-png/gopeed-extension-xunlei`
 
+## 项目结构
+
+```text
+gopeed-extension-xunlei/
+├── index.js       # 扩展源码
+├── manifest.json  # Gopeed 扩展配置
+└── README.md      # 使用说明
+```
+
 ## 安装
 
-1. 在 Gopeed 的扩展市场搜索“迅雷云盘下载”或 `xunlei`，直接安装。
-2. 如果市场尚未同步，也可以开启开发者模式，选择本目录安装；`manifest.json` 和 `index.js` 必须位于同一目录。
-3. 将迅雷分享链接粘贴到 Gopeed，例如：`https://pan.xunlei.com/s/分享ID?pwd=提取码`。
+### 方法 1：通过 Gopeed 扩展市场安装
+
+1. 打开 Gopeed。
+2. 进入“扩展”页面。
+3. 搜索“迅雷云盘下载”或 `xunlei`。
+4. 点击安装。
+
+### 方法 2：本地安装
+
+1. 下载本仓库文件到一个文件夹。
+2. 打开 Gopeed 的“扩展”页面。
+3. 开启开发者模式并选择本目录；`manifest.json` 和 `index.js` 必须位于同一目录。
+
+安装后，将迅雷分享链接粘贴到 Gopeed，例如：`https://pan.xunlei.com/s/分享ID?pwd=提取码`。
+
+## 配置
+
+### 迅雷 Cookie
+
+1. 使用 Chrome 访问 `https://pan.xunlei.com/` 并登录迅雷账号。
+2. 按 `F12` 打开开发者工具，切换到 `Network`。
+3. 找到迅雷云盘页面产生的请求，在 `Request Headers` 中复制 `Cookie` 值。
+4. 粘贴到 Gopeed 扩展设置的“迅雷 Cookie”。
+
+### 迅雷 Authorization
+
+普通分享没有直接下载地址时，还需要从同一个请求的 `Request Headers` 复制 `Authorization`，粘贴到扩展设置的“迅雷 Authorization”。如果 Cookie 中已经包含 `authorization` 字段，可以不重复填写。
+
+### 自动清理
+
+开启“转存后立即删除临时文件”后，扩展拿到全部下载直链就会删除本次转存的顶层文件或文件夹。直接返回直链的分享不会执行清理；Gopeed 的启动和完成事件只用于删除失败时重试。
 
 每个 Gopeed 安装会在扩展存储中生成一个设备标识，用于向迅雷接口申请短时验证码令牌；验证码令牌不会保存。
 
-如果普通分享没有返回下载地址，请登录 `pan.xunlei.com`，打开浏览器开发者工具，在 Network 请求的 Request Headers 中复制 `Cookie` 和 `Authorization`，粘贴到扩展设置。扩展会清理 `Cookie:` 前缀并携带这些请求头。只有 Cookie 时可以读取分享目录和文件名，但无法完成普通分享转存，这是迅雷接口的权限要求，不是 Gopeed 下载器的限制。
-
 如果转存接口返回的对象无法确认是本次分享的文件，扩展会直接报错并停止，不会把“我的云盘”中的其他文件交给 Gopeed。
 
-扩展设置中可以开启“转存后立即删除临时文件”。开启后，扩展在拿到全部下载直链、将资源交给 Gopeed 之前，就会删除本次转存内容，因此即使任务尚未启动就被取消，也不会留下转存文件。Gopeed 的启动和完成事件仅作为删除请求失败时的重试机制。
+## 支持的链接格式
 
-## 当前范围
+- 标准分享链接：`https://pan.xunlei.com/s/分享ID`
+- 带提取码的分享：`https://pan.xunlei.com/s/分享ID?pwd=提取码`
+- 带目录路径的分享：`https://pan.xunlei.com/s/分享ID?pwd=提取码&path=/目录`
+
+无论链接是否带 `path`，扩展都会从分享根目录开始递归读取全部内容。
+
+## 功能特性
 
 - 支持 `pan.xunlei.com/s/*` 分享链接。
 - 支持无提取码和 `?pwd=xxxx` 分享。
-- 无论链接是否带有 `path=/目录/文件`，都从分享根目录开始递归解析全部内容。
 - 支持目录递归和分页。
 - 优先使用分享接口直接返回的文件直链。
 - 普通分享没有直链时，支持登录后转存到“我的云盘”，再获取转存文件的 `web_content_link`。
@@ -30,4 +70,22 @@ GitHub: `https://github.com/cybdarlnig-png/gopeed-extension-xunlei`
 - 文件直链交给 Gopeed 下载，保留文件名、目录和文件大小。
 - 不绕过敏感资源、会员限制或第三方权限；没有有效登录凭证时，普通文件无法转存。
 
+## 常见问题
+
+### 1. 只能读取文件名，不能开始下载
+
+请同时检查 Cookie 和 Authorization 是否来自 Chrome 中同一个迅雷请求。只有 Cookie 时通常可以读取分享内容，但普通分享转存需要有效的 Authorization。
+
+### 2. 提示登录凭证无效
+
+重新登录 `pan.xunlei.com`，从最新请求的请求头复制 Cookie 和 Authorization。不要复制已经过期的旧请求内容。
+
+### 3. 返回的内容是否与分享链接无关
+
+扩展只使用分享接口的 `files` 列表，并且会校验转存结果的文件名、目录和大小；无法确认映射关系时会停止，不会提交“我的云盘”中的无关文件。
+
 迅雷接口、Cookie 和分享直链都可能随服务端策略变化。如果出现“验证码无效”或直链过期，重新创建下载任务通常可以获得新的令牌和直链；如果出现认证失败，请重新从迅雷网页端复制有效 Cookie。
+
+## 免责声明
+
+本扩展仅供学习和个人使用。请使用自己的迅雷账号，并遵守迅雷服务条款以及相关法律法规。
