@@ -42,7 +42,7 @@ gopeed-extension-xunlei/
 
 ### 迅雷 Authorization
 
-普通分享没有直接下载地址时，还需要从同一个请求的 `Request Headers` 复制 `Authorization`，粘贴到扩展设置的“迅雷 Authorization”。如果 Cookie 中已经包含 `authorization` 字段，可以不重复填写。
+普通分享没有直接下载地址时，还需要从同一个请求的 `Request Headers` 复制 `Authorization`，粘贴到扩展设置的“迅雷 Authorization”。支持粘贴纯值、`Bearer ...`、完整的 `Authorization: Bearer ...` 请求头，以及一键获取工具复制的带引号/JSON格式。如果 Cookie 中已经包含 `authorization` 字段，可以不重复填写。
 
 ### 自动清理
 

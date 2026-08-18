@@ -138,6 +138,10 @@ async function requestJson(url, options) {
 function normalizeCookie(value) {
   value = String(value || '').trim();
   value = value.replace(/^cookie\s*:\s*/i, '');
+  var cookieHeader = value.match(/(?:^|\r?\n)\s*cookie\s*:\s*([^\r\n]+)/i);
+  if (cookieHeader) {
+    value = cookieHeader[1].trim();
+  }
   value = value.replace(/[\r\n]+/g, '; ');
   return value.trim();
 }
@@ -178,7 +182,28 @@ function getAuthorization() {
   if (!value) {
     return '';
   }
-  if (/^[A-Za-z][A-Za-z0-9_-]*\s+\S+/.test(value)) {
+
+  // Accept the value copied from DevTools, a complete header line, or a
+  // JSON/string wrapper produced by a browser helper extension.
+  var headerMatch = value.match(/(?:^|\r?\n)\s*authorization\s*:\s*([^\r\n]+)/i);
+  if (headerMatch) {
+    value = headerMatch[1].trim();
+  } else if (/^\s*\{/.test(value)) {
+    try {
+      var parsed = JSON.parse(value);
+      value = parsed.authorization || parsed.Authorization || '';
+    } catch (e) {
+      // Keep the original value so the server can return a useful error.
+    }
+  }
+
+  value = String(value || '').trim();
+  value = value.replace(/^['"]|['"]$/g, '').trim();
+  value = value.replace(/^authorization\s*:\s*/i, '').trim();
+  if (!value) {
+    return '';
+  }
+  if (/^(Bearer|Basic|Digest|Token)\s+/i.test(value)) {
     return value;
   }
   return 'Bearer ' + value;
